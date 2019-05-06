@@ -1,0 +1,14 @@
+D:\DEV\Next OWL\src\bin\Debug\netcoreapp2.2\Next OWL.deps.json
+D:\DEV\Next OWL\src\bin\Debug\netcoreapp2.2\Next OWL.runtimeconfig.json
+D:\DEV\Next OWL\src\bin\Debug\netcoreapp2.2\Next OWL.runtimeconfig.dev.json
+D:\DEV\Next OWL\src\bin\Debug\netcoreapp2.2\Next OWL.dll
+D:\DEV\Next OWL\src\bin\Debug\netcoreapp2.2\Next OWL.pdb
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.csprojAssemblyReference.cache
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.csproj.CoreCompileInputs.cache
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.RazorAssemblyInfo.cache
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.RazorAssemblyInfo.cs
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.AssemblyInfoInputs.cache
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.AssemblyInfo.cs
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.RazorTargetAssemblyInfo.cache
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.dll
+D:\DEV\Next OWL\src\obj\Debug\netcoreapp2.2\Next OWL.pdb
