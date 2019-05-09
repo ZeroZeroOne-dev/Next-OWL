@@ -45,7 +45,7 @@ namespace Next_OWL.Services
                     if (stageWeekStart.IsBetween(start, end) || stageEndWeek.IsBetween(start, end))
                     {
                         currentWeek = week;
-                        break; ;
+                        break;
                     }
                 }
             }
@@ -62,9 +62,9 @@ namespace Next_OWL.Services
                 {
                     return new NextGame
                     {
-                        TeamOne = match.competitors[0].name,
-                        TeamTwo = match.competitors[1].name,
-                        Date = DateTime.Parse(match.startDate)
+                        TeamOne = (match["competitors"][0]),
+                        TeamTwo = (match["competitors"][1]),
+                        //Date = DateTime.Parse(match.startDate)
                     };
                 }
             }
