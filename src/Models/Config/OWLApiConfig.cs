@@ -1,4 +1,4 @@
-namespace Next_OWL.Models
+namespace Next_OWL.Models.Config
 {
     public class OWLApiConfig
     {

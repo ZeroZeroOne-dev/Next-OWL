@@ -1,8 +1,11 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Next_OWL.Models;
+using Next_OWL.Models.Config;
+using Next_OWL.Models.Input;
+using Next_OWL.Models.Output;
 
 namespace Next_OWL.Services
 {
@@ -16,10 +19,10 @@ namespace Next_OWL.Services
             this.httpClient.BaseAddress = new Uri(owlApiConfig.BaseUrl);
         }
 
-        private async Task<dynamic> GetSchedule()
+        private async Task<RequestResult> GetSchedule()
         {
             var request = await this.httpClient.GetAsync("/schedule");
-            return await request.Content.ReadAsAsync<JObject>();
+            return await request.Content.ReadAsAsync<RequestResult>();
         }
 
         public async Task<NextGame> GetNextGame()
@@ -31,45 +34,33 @@ namespace Next_OWL.Services
             var end = GetUtcStamp(inAWeek);
 
 
-            var owlSchedule = (await GetSchedule()).data;
+            var owlSchedule = (await GetSchedule()).Data;
+            var week = owlSchedule.Stages
+                        .SelectMany(s => s.Weeks)
+                        .OrderBy(w => w.StartDate)
+                        .FirstOrDefault(w => w.StartDate.IsBetween(start, end) || w.EndDate.IsBetween(start, end));
 
-            dynamic currentWeek = null;
-
-            foreach (dynamic stage in owlSchedule.stages)
-            {
-                foreach (dynamic week in stage.weeks)
-                {
-                    var stageWeekStart = (double)week.startDate;
-                    var stageEndWeek = (double)week.endDate;
-
-                    if (stageWeekStart.IsBetween(start, end) || stageEndWeek.IsBetween(start, end))
-                    {
-                        currentWeek = week;
-                        break;
-                    }
-                }
-            }
-
-            if (currentWeek == null)
+            if (week == null)
             {
                 return null;
             }
 
-            foreach (dynamic match in currentWeek.matches)
+            var match = week.Matches
+                        .OrderBy(m => m.StartDateTS)
+                        .FirstOrDefault(m => m.StartDateTS.IsBetween(start, end));
+
+            if (match == null)
             {
-                var matchStart = (double)match.startDateTS;
-                if (matchStart.IsBetween(start, end))
-                {
-                    return new NextGame
-                    {
-                        TeamOne = (match["competitors"][0]),
-                        TeamTwo = (match["competitors"][1]),
-                        //Date = DateTime.Parse(match.startDate)
-                    };
-                }
+                return null;
             }
 
-            return null;
+            return new NextGame
+            {
+                TeamOne = match.Competitors[0].Name,
+                TeamTwo = match.Competitors[1].Name,
+                Date = match.StartDate
+            };
+
         }
 
         private double GetUtcStamp(DateTime dateTime)

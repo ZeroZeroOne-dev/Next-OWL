@@ -1,6 +1,6 @@
 using System;
 
-namespace Next_OWL.Models
+namespace Next_OWL.Models.Output
 {
     public class NextGame
     {
