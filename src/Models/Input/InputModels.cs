@@ -15,13 +15,6 @@ namespace Next_OWL.Models.Input
 
     public class Stage
     {
-        public IEnumerable<Week> Weeks { get; set; }
-    }
-
-    public class Week
-    {
-        public double StartDate { get; set; }
-        public double EndDate { get; set; }
         public IEnumerable<Match> Matches { get; set; }
     }
 

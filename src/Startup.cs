@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Next_OWL.Models.Config;
 using Next_OWL.Services;
 
 namespace Next_OWL
@@ -28,7 +29,7 @@ namespace Next_OWL
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var owlAPIConfig = new Models.Config.OWLApiConfig();
+            var owlAPIConfig = new OWLApiConfig();
             Configuration.Bind("OWLApi", owlAPIConfig);
 
             services.AddSingleton(owlAPIConfig);

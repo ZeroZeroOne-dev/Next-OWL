@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,33 +22,21 @@ namespace Next_OWL.Services
 
         private async Task<RequestResult> GetSchedule()
         {
-            var request = await this.httpClient.GetAsync("/schedule");
+            var request = await this.httpClient.GetAsync("/schedule?expand=team.content&locale=en_US&season=2019&separateStagePlayoffsWeek=true");
             return await request.Content.ReadAsAsync<RequestResult>();
         }
 
         public async Task<NextGame> GetNextGame()
         {
-            var now = DateTime.Now;
-            var start = GetUtcStamp(now);
-
-            var inAWeek = now.AddDays(7);
-            var end = GetUtcStamp(inAWeek);
-
+            var now = DateTime.Now.AddHours(-9);
+            var start = now.ToUtcStamp();
 
             var owlSchedule = (await GetSchedule()).Data;
-            var week = owlSchedule.Stages
-                        .SelectMany(s => s.Weeks)
-                        .OrderBy(w => w.StartDate)
-                        .FirstOrDefault(w => w.StartDate.IsBetween(start, end) || w.EndDate.IsBetween(start, end));
 
-            if (week == null)
-            {
-                return null;
-            }
-
-            var match = week.Matches
+            var match = owlSchedule.Stages
+                        .SelectMany(s => s.Matches)
                         .OrderBy(m => m.StartDateTS)
-                        .FirstOrDefault(m => m.StartDateTS.IsBetween(start, end));
+                        .FirstOrDefault(m => m.StartDateTS >= start);
 
             if (match == null)
             {
@@ -62,15 +51,6 @@ namespace Next_OWL.Services
             };
 
         }
-
-        private double GetUtcStamp(DateTime dateTime)
-        {
-            return dateTime.ToUniversalTime()
-                .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
-                .TotalMilliseconds;
-        }
-
-
     }
 
     public static class ExtensionMethods
@@ -78,6 +58,13 @@ namespace Next_OWL.Services
         public static bool IsBetween(this double testValue, double min, double max)
         {
             return testValue >= min && testValue <= max;
+        }
+
+        public static double ToUtcStamp(this DateTime dateTime)
+        {
+            return dateTime.ToUniversalTime()
+                .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+                .TotalMilliseconds;
         }
     }
 
