@@ -14,7 +14,7 @@ variables:
   moduleName: 'Next-OWL.API'
 
 steps:
-- script: dotnet build ./src --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)\&(Next-OWL.API)'
+- script: dotnet build ./src --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)\$(Next-OWL.API)'
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: PublishBuildArtifacts@1
