@@ -14,11 +14,17 @@ variables:
   moduleName: 'Next-OWL.API'
 
 steps:
-- script: dotnet build ./src --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(moduleName)
-  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    feedsToUse: 'select'
+    versioningScheme: 'off'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  
