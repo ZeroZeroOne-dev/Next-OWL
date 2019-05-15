@@ -18,9 +18,9 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    feedsToUse: 'select'
-    versioningScheme: 'off'
+    publishWebProjects: false
+    projects: '${{ parameters.SourceFolder }}/src/Next OWL.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)\$(ModuleName)'
 
 - task: PublishBuildArtifacts@1
   inputs:
