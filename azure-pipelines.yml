@@ -19,8 +19,8 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: '${{ parameters.SourceFolder }}/src/Next OWL.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)\$(ModuleName)'
+    projects: './src/Next OWL.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(ModuleName)'
 
 - task: PublishBuildArtifacts@1
   inputs:
