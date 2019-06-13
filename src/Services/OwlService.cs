@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Next_OWL.Models.Config;
 using Next_OWL.Models.Input;
 using Next_OWL.Models.Output;
@@ -26,30 +24,32 @@ namespace Next_OWL.Services
             return await request.Content.ReadAsAsync<RequestResult>();
         }
 
-        public async Task<NextGame> GetNextGame()
+        public async Task<IOrderedEnumerable<Game>> GetFutureGames()
         {
             var start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             var owlSchedule = (await GetSchedule()).Data;
 
-            var match = owlSchedule.Stages
+            var matches = owlSchedule.Stages
                         .SelectMany(s => s.Matches)
-                        .Where(m => m.Competitors[0] != null)
-                        .OrderBy(m => m.StartDateTS)
-                        .FirstOrDefault(m => m.StartDateTS >= start);
+                        .Where(m => m.Competitors[0] != null && m.StartDateTS >= start)
+                        .Select(m => new Game
+                        {
+                            TeamOne = m.Competitors[0].Name,
+                            TeamTwo = m.Competitors[1].Name,
+                            Date = m.StartDate
+                        })
+                        .OrderBy(g => g.Date);
 
-            if (match == null)
-            {
-                return null;
-            }
+            return matches;
+        }
 
-            return new NextGame
-            {
-                TeamOne = match.Competitors[0].Name,
-                TeamTwo = match.Competitors[1].Name,
-                Date = match.StartDate
-            };
+        public async Task<Game> GetNextGame()
+        {
+            var futureGames = await this.GetFutureGames();
+            var game = futureGames.FirstOrDefault();
 
+            return game;
         }
     }
 }

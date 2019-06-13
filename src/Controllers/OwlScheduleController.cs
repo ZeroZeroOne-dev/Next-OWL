@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Next_OWL.Models.Output;
 using Next_OWL.Services;
 
 namespace Next_OWL.Controllers
 {
-    [Route("api/OwlSchedule")]
+    [Route("api/schedule")]
     [ApiController]
     public class OwlScheduleController : ControllerBase
     {
@@ -19,11 +18,16 @@ namespace Next_OWL.Controllers
         }
 
         // GET api/values
-        [HttpGet]
-        public async Task<ActionResult<dynamic>> Get()
+        [HttpGet("nextgame")]
+        public async Task<Game> GetNextGame()
         {
             return await this.owlService.GetNextGame();
         }
 
+        [HttpGet]
+        public async Task<IOrderedEnumerable<Game>> Get()
+        {
+            return await this.owlService.GetFutureGames();
+        }
     }
 }
