@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/Next-OWL.WebAPI/bin/Debug/netcoreapp2.2/Next OWL.dll",
+      "program": "${workspaceFolder}/src/Next-OWL.API/bin/Debug/netcoreapp2.2/Next OWL.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src",
       "stopAtEntry": false,

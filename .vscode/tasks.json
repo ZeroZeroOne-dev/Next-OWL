@@ -5,10 +5,7 @@
       "label": "build",
       "command": "dotnet",
       "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/src/Next-OWL.WebAPI/Next OWL.csproj"
-      ],
+      "args": ["build", "${workspaceFolder}/src/Next-OWL.API/Next OWL.csproj"],
       "problemMatcher": "$tsc"
     },
     {
@@ -17,7 +14,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/Next-OWL.WebAPI/Next OWL.csproj"
+        "${workspaceFolder}/src/Next-OWL.API/Next OWL.csproj"
       ],
       "problemMatcher": "$tsc"
     },
@@ -28,7 +25,7 @@
       "args": [
         "watch",
         "run",
-        "${workspaceFolder}/src/Next-OWL.WebAPI/Next OWL.csproj"
+        "${workspaceFolder}/src/Next-OWL.API/Next OWL.csproj"
       ],
       "problemMatcher": "$tsc"
     }
