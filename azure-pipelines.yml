@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: "Release"
-  moduleName: "Next-OWL.API"
+  moduleName: "Next-OWL"
 
 steps:
   - task: DotNetCoreCLI@2
