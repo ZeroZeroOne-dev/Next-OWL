@@ -4,28 +4,26 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+  - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 variables:
-  buildConfiguration: 'Release'
-  moduleName: 'Next-OWL.API'
+  buildConfiguration: "Release"
+  moduleName: "Next-OWL.API"
 
 steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: "publish"
+      publishWebProjects: false
+      projects: "./src/Next-OWL.WebAPI/Next OWL.csproj"
+      zipAfterPublish: false
+      arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(ModuleName)"
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: './src/Next OWL.csproj'
-    zipAfterPublish: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(ModuleName)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "drop"
+      publishLocation: "Container"
