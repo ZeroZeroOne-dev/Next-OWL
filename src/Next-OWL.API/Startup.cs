@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace Next_OWL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             var owlAPIConfig = new OWLApiConfig();
@@ -36,6 +38,11 @@ namespace Next_OWL
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .WithMethods("GET", "OPTIONS")
+            );
 
             app.UseMvc();
         }
