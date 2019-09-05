@@ -3,11 +3,11 @@ import { NextOwlService } from "./service.js";
 export class App {
   constructor(containerClass) {
     this.container = document.querySelector(`.${containerClass}`);
+    this.owlService = new NextOwlService();
   }
 
   async run() {
-    const service = new NextOwlService();
-    this.nextGame = await service.getNextGame();
+    this.nextGame = await this.owlService.getFakeNextGame();
     this.draw();
   }
 
@@ -37,7 +37,13 @@ export class App {
     var localDate = this.getLocalDateString(this.nextGame.date);
 
     const template = `
-        ${this.nextGame.teamOne} VS ${this.nextGame.teamTwo} on ${localDate}
+      <div class="next-result">
+        <div class="teams">
+          <div class="team left">${this.nextGame.teamOne.name}</div>
+          <div class="team right">${this.nextGame.teamTwo.name}</div>
+        </div>
+        <div class="when">${localDate}</div>
+      </div>
     `;
 
     this.container.innerHTML = template;
