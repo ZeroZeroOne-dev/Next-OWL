@@ -1,9 +1,9 @@
 export class NextOwlService {
   static ApiBaseUrl = "https://next-owl.azurewebsites.net/api";
 
-  nextGame() {
-    fetch(`${NextOwlService.ApiBaseUrl}/schedule/nextgame`, {
-      mode: "no-cors"
-    }).then(r => console.log(r));
+  async getNextGame() {
+    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule/nextgame`);
+
+    return r.json();
   }
 }
