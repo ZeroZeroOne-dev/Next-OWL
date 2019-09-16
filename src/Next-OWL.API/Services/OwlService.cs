@@ -35,8 +35,16 @@ namespace Next_OWL.Services
                         .Where(m => m.Competitors[0] != null && m.StartDateTS >= start)
                         .Select(m => new Game
                         {
-                            TeamOne = m.Competitors[0].Name,
-                            TeamTwo = m.Competitors[1].Name,
+                            TeamOne = new Team
+                            {
+                                Name = m.Competitors[0].Name,
+                                Icon = m.Competitors[0].Icon
+                            },
+                            TeamTwo = new Team
+                            {
+                                Name = m.Competitors[1].Name,
+                                Icon = m.Competitors[1].Icon
+                            },
                             Date = m.StartDate
                         })
                         .OrderBy(g => g.Date);

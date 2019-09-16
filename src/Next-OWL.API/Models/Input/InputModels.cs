@@ -28,5 +28,6 @@ namespace Next_OWL.Models.Input
     public class Competitor
     {
         public string Name { get; set; }
+        public string Icon { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace Next_OWL.Controllers
             this.owlService = owlService;
         }
 
-        // GET api/values
         [HttpGet("nextgame")]
         public async Task<Game> GetNextGame()
         {
