@@ -20,4 +20,17 @@ export class DateHelper {
 
         //shout-out to max
     }
+
+    static getCountDownString(UTCDateString) {
+        const time = new Date(UTCDateString).getTime();
+        const now = new Date().getTime();
+        const span = time - now;
+
+        const days = Math.floor(span / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((span % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((span % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((span % (1000 * 60)) / 1000);
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
 }

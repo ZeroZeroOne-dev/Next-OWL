@@ -1,6 +1,6 @@
 import { NextOwlService } from "../services/service.js";
-import { DateHelper } from "../helpers/date-helper.js";
 import { TeamComponent } from "./team.component.js";
+import { CountdownComponent } from "./countdown.component.js";
 
 export class AppComponent extends HTMLElement {
   constructor() {
@@ -19,9 +19,14 @@ export class AppComponent extends HTMLElement {
   }
 
   draw() {
-    const teamOneElement = new TeamComponent(this.nextGame.teamOne);
+    const container = document.createElement('div');
+    container.classList.add('teams');
 
-    this.append(teamOneElement);
+    container.append(new TeamComponent(this.nextGame.teamOne));
+    container.append(new CountdownComponent(this.nextGame.date));
+    container.append(new TeamComponent(this.nextGame.teamTwo));
+
+    this.append(container);
   }
 }
 customElements.define('no-app', AppComponent);

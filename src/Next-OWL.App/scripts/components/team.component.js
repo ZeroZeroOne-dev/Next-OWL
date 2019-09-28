@@ -9,6 +9,7 @@ export class TeamComponent extends HTMLElement {
     draw() {
         const template = `
             ${this.team.name}
+            <img src="${this.team.icon}"/>
         `;
 
         this.innerHTML = template;
