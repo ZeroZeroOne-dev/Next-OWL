@@ -20,8 +20,16 @@ steps:
       publishWebProjects: false
       projects: "./src/Next-OWL.API/Next OWL.csproj"
       zipAfterPublish: false
-      arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(ModuleName)"
+      arguments: "--configuration $(BuildConfiguration) --output 
 
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: './src/Next-OWL.App/'
+      Contents: |
+        **
+        !Caddyfile
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/$(ModuleName)/wwwroot'
+      OverWrite: true"
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: "$(Build.ArtifactStagingDirectory)"
