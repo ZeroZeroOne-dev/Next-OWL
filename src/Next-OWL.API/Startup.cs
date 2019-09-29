@@ -45,6 +45,8 @@ namespace Next_OWL
             );
 
             app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }
