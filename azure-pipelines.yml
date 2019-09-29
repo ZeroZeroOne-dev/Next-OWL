@@ -28,7 +28,7 @@ steps:
       Contents: |
         **
         !Caddyfile
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/$(ModuleName)/wwwroot'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/$(ModuleName)/Next-OWL.API/wwwroot'
       OverWrite: true
 
   - task: PublishBuildArtifacts@1
