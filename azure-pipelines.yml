@@ -22,6 +22,15 @@ steps:
       zipAfterPublish: false
       arguments: "--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(ModuleName)"
 
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: './src/Next-OWL.App/'
+      Contents: |
+        **
+        !Caddyfile
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/$(ModuleName)/Next-OWL.API/wwwroot'
+      OverWrite: true
+
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: "$(Build.ArtifactStagingDirectory)"
