@@ -7,6 +7,7 @@ export class CountdownComponent extends HTMLElement {
         this.localDate = DateHelper.getLocalDateString(gameDate);
         this.gameDate = gameDate;
 
+        this.draw();
         setInterval(() => {
             this.draw();
         }, 1000);

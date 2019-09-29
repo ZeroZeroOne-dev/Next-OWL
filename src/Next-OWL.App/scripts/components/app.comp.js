@@ -1,6 +1,7 @@
 import { NextOwlService } from "../services/service.js";
-import { TeamComponent } from "./team.component.js";
-import { CountdownComponent } from "./countdown.component.js";
+import { TeamComponent } from "./team.comp.js";
+import { CountdownComponent } from "./countdown.comp.js";
+import { SpinnerComponent } from "./spinner.comp.js";
 
 export class AppComponent extends HTMLElement {
   constructor() {
@@ -12,10 +13,15 @@ export class AppComponent extends HTMLElement {
   }
 
   run() {
+    this.drawLoading();
     this.nextOwlService.getNextGame().then(nextGame => {
       this.nextGame = nextGame;
       this.draw();
     });
+  }
+
+  drawLoading() {
+    this.append(new SpinnerComponent());
   }
 
   draw() {
@@ -26,6 +32,7 @@ export class AppComponent extends HTMLElement {
     container.append(new CountdownComponent(this.nextGame.date));
     container.append(new TeamComponent(this.nextGame.teamTwo));
 
+    this.removeChild(this.children[0]);
     this.append(container);
   }
 }
