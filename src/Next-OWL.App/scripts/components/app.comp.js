@@ -2,6 +2,7 @@ import { NextOwlService } from "../services/service.js";
 import { TeamComponent } from "./team.comp.js";
 import { CountdownComponent } from "./countdown.comp.js";
 import { SpinnerComponent } from "./spinner.comp.js";
+import { ErrorComponent } from "./error.component.js";
 
 export class AppComponent extends HTMLElement {
   constructor() {
@@ -10,6 +11,7 @@ export class AppComponent extends HTMLElement {
     this.nextOwlService = new NextOwlService();
 
     this.run();
+    this.addEventListener('dblclick', () => this.run());
   }
 
   run() {
@@ -17,11 +19,13 @@ export class AppComponent extends HTMLElement {
     this.nextOwlService.getNextGame().then(nextGame => {
       this.nextGame = nextGame;
       this.draw();
-    });
+    }).catch((er) => {
+      this.drawError(er);
+    })
   }
 
   drawLoading() {
-    this.append(new SpinnerComponent());
+    this.replaceAll(new SpinnerComponent());
   }
 
   draw() {
@@ -32,8 +36,23 @@ export class AppComponent extends HTMLElement {
     container.append(new CountdownComponent(this.nextGame.date));
     container.append(new TeamComponent(this.nextGame.teamTwo));
 
-    this.removeChild(this.children[0]);
-    this.append(container);
+    this.replaceAll(container);
+  }
+
+  drawError(error) {
+    const container = document.createElement('div');
+
+    container.append(new ErrorComponent(error));
+
+    this.replaceAll(container);
+  }
+
+  replaceAll(newContent) {
+    while (this.firstChild) {
+      this.removeChild(this.firstChild);
+    }
+
+    this.append(newContent);
   }
 }
 customElements.define('no-app', AppComponent);

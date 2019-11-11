@@ -26,9 +26,10 @@ no-countdown {
     justify-content: space-evenly;
 }
 
-no-spinner {
+no-spinner, no-error {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     margin-top: 10vh;
+    text-align: center;
 }

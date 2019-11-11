@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Next_OWL.Models.Config;
 using Next_OWL.Models.Input;
@@ -11,17 +12,24 @@ namespace Next_OWL.Services
     public class OwlService
     {
         private readonly HttpClient httpClient;
+        private readonly JsonSerializerOptions jsonOptions;
 
         public OwlService(OWLApiConfig owlApiConfig)
         {
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(owlApiConfig.BaseUrl);
+
+            this.jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
         }
 
         private async Task<RequestResult> GetSchedule()
         {
-            var request = await this.httpClient.GetAsync("/schedule?expand=team.content&locale=en_US&season=2019&separateStagePlayoffsWeek=true");
-            return await request.Content.ReadAsAsync<RequestResult>();
+            var request = await this.httpClient.GetAsync("/schedule?locale=en_US&season=2020");
+            using var jsonStream = await request.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
 
         public async Task<IOrderedEnumerable<Game>> GetFutureGames()
@@ -55,9 +63,7 @@ namespace Next_OWL.Services
         public async Task<Game> GetNextGame()
         {
             var futureGames = await this.GetFutureGames();
-            var game = futureGames.FirstOrDefault();
-
-            return game;
+            return futureGames.FirstOrDefault();
         }
     }
 }
