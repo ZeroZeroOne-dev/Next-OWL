@@ -58,8 +58,8 @@ namespace Next_OWL
                 endpoints.MapHealthChecks("/api/health");
             });
 
-            app.UseStaticFiles();
             app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }
