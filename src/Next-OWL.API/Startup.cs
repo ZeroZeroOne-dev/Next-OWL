@@ -4,7 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Next_OWL.Models.Config;
-using Next_OWL.Versions.V1.Services;
+using Next_OWL.Services;
+using Next_OWL.Versions.V2.Services;
 
 namespace Next_OWL
 {
@@ -28,7 +29,7 @@ namespace Next_OWL
             Configuration.Bind("OWLApi", owlAPIConfig);
 
             services.AddSingleton(owlAPIConfig);
-            services.AddScoped<OwlService>();
+            services.AddScoped<IOwlService, OwlService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

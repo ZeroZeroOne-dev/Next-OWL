@@ -5,19 +5,25 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Next_OWL.Models.Config;
 using Next_OWL.Models.Output;
+using Next_OWL.Services;
 using Next_OWL.Versions.V2.Models.Input;
 
 namespace Next_OWL.Versions.V2.Services
 {
-    public class OwlService
+
+    public class OwlService : IOwlService
     {
         private readonly HttpClient httpClient;
         private readonly JsonSerializerOptions jsonOptions;
 
         public OwlService(OWLApiConfig owlApiConfig)
         {
-            this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(owlApiConfig.BaseUrl);
+            this.httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(owlApiConfig.V2BaseUrl)
+            };
+            this.httpClient.DefaultRequestHeaders.Add("referer", "https://overwatchleague.com/en-us/schedule");
+
 
             this.jsonOptions = new JsonSerializerOptions
             {
@@ -27,7 +33,7 @@ namespace Next_OWL.Versions.V2.Services
 
         private async Task<RequestResult> GetSchedule()
         {
-            var request = await this.httpClient.GetAsync("/schedule?locale=en_US&season=2020");
+            var request = await this.httpClient.GetAsync("/production/owl/paginator/schedule?stage=regular_season&page=1&season=2020&locale=en-us");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
@@ -40,7 +46,7 @@ namespace Next_OWL.Versions.V2.Services
 
             var matches = owlSchedule.Content.TableData.Events
                         .SelectMany(s => s.Matches)
-                        .Where(m => m.Competitors[0] != null && m.StartDateTS >= start)
+                        .Where(m => m.Competitors[0] != null && m.StartDate >= start)
                         .Select(m => new Game
                         {
                             TeamOne = new Team
@@ -53,7 +59,7 @@ namespace Next_OWL.Versions.V2.Services
                                 Name = m.Competitors[1].Name,
                                 Icon = m.Competitors[1].Icon
                             },
-                            //Date = m.StartDate
+                            Date = DateTimeOffset.FromUnixTimeMilliseconds(m.StartDate).UtcDateTime
                         })
                         .OrderBy(g => g.Date);
 

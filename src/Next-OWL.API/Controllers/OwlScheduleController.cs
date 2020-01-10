@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Next_OWL.Models.Output;
-using Next_OWL.Versions.V1.Services;
+using Next_OWL.Services;
 
 namespace Next_OWL.Controllers
 {
@@ -10,9 +10,9 @@ namespace Next_OWL.Controllers
     [ApiController]
     public class OwlScheduleController : ControllerBase
     {
-        private readonly OwlService owlService;
+        private readonly IOwlService owlService;
 
-        public OwlScheduleController(OwlService owlService)
+        public OwlScheduleController(IOwlService owlService)
         {
             this.owlService = owlService;
         }

@@ -5,11 +5,12 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Next_OWL.Models.Config;
 using Next_OWL.Models.Output;
+using Next_OWL.Services;
 using Next_OWL.Versions.V1.Models.Input;
 
 namespace Next_OWL.Versions.V1.Services
 {
-    public class OwlService
+    public class OwlService : IOwlService
     {
         private readonly HttpClient httpClient;
         private readonly JsonSerializerOptions jsonOptions;
@@ -17,7 +18,7 @@ namespace Next_OWL.Versions.V1.Services
         public OwlService(OWLApiConfig owlApiConfig)
         {
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(owlApiConfig.BaseUrl);
+            this.httpClient.BaseAddress = new Uri(owlApiConfig.V1BaseUrl);
 
             this.jsonOptions = new JsonSerializerOptions
             {

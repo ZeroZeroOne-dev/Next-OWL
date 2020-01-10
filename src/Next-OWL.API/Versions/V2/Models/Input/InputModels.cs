@@ -24,7 +24,7 @@ namespace Next_OWL.Versions.V2.Models.Input
 
     public class Match
     {
-        public double StartDateTS { get; set; }
+        public long StartDate { get; set; }
         public Competitor[] Competitors { get; set; }
     }
 
