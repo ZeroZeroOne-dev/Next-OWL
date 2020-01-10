@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Next_OWL.Models.Config;
-using Next_OWL.Models.Input;
 using Next_OWL.Models.Output;
+using Next_OWL.Versions.V2.Models.Input;
 
-namespace Next_OWL.Services
+namespace Next_OWL.Versions.V2.Services
 {
     public class OwlService
     {
@@ -36,9 +36,9 @@ namespace Next_OWL.Services
         {
             var start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            var owlSchedule = (await GetSchedule()).Data;
+            var owlSchedule = (await GetSchedule());
 
-            var matches = owlSchedule.Stages
+            var matches = owlSchedule.Content.TableData.Events
                         .SelectMany(s => s.Matches)
                         .Where(m => m.Competitors[0] != null && m.StartDateTS >= start)
                         .Select(m => new Game
@@ -53,7 +53,7 @@ namespace Next_OWL.Services
                                 Name = m.Competitors[1].Name,
                                 Icon = m.Competitors[1].Icon
                             },
-                            Date = m.StartDate
+                            //Date = m.StartDate
                         })
                         .OrderBy(g => g.Date);
 

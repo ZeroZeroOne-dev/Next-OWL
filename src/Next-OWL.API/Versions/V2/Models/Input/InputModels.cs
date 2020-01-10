@@ -1,26 +1,29 @@
-using System;
 using System.Collections.Generic;
 
-namespace Next_OWL.Models.Input
+namespace Next_OWL.Versions.V2.Models.Input
 {
     public class RequestResult
     {
-        public RequestData Data { get; set; }
+        public Content Content { get; set; }
     }
 
-    public class RequestData
+    public class Content
     {
-        public IEnumerable<Stage> Stages { get; set; }
+        public TableData TableData { get; set; }
     }
 
-    public class Stage
+    public class TableData
+    {
+        public IEnumerable<Event> Events { get; set; }
+    }
+
+    public class Event
     {
         public IEnumerable<Match> Matches { get; set; }
     }
 
     public class Match
     {
-        public DateTime StartDate { get; set; }
         public double StartDateTS { get; set; }
         public Competitor[] Competitors { get; set; }
     }

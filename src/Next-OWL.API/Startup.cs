@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Next_OWL.Models.Config;
-using Next_OWL.Services;
+using Next_OWL.Versions.V1.Services;
 
 namespace Next_OWL
 {
