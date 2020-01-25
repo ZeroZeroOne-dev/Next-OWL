@@ -1,3 +1,5 @@
 export class NoGameError extends Error {
-    message = 'No game found.'
+    constructor() {
+        super('No game found.');
+    }
 };
