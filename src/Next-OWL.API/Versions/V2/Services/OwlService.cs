@@ -52,11 +52,13 @@ namespace Next_OWL.Versions.V2.Services
                             TeamOne = new Team
                             {
                                 Name = m.Competitors[0].Name,
+                                ShortName = m.Competitors[0].AbbreviatedName,
                                 Icon = m.Competitors[0].Icon
                             },
                             TeamTwo = new Team
                             {
                                 Name = m.Competitors[1].Name,
+                                ShortName = m.Competitors[1].AbbreviatedName,
                                 Icon = m.Competitors[1].Icon
                             },
                             Date = DateTimeOffset.FromUnixTimeMilliseconds(m.StartDate).UtcDateTime

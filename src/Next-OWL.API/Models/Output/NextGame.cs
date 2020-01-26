@@ -12,6 +12,7 @@ namespace Next_OWL.Models.Output
     public class Team
     {
         public string Name { get; set; }
+        public string ShortName { get; set; }
         public string Icon { get; set; }
     }
 }

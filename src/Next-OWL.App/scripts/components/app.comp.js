@@ -1,4 +1,5 @@
-import { NextOwlService } from "../services/service.js";
+import { NextOwlService } from "../services/next-owl.service.js";
+import { TitleHelper } from "../helpers/title.helper.js";
 import { TeamComponent } from "./team.comp.js";
 import { CountdownComponent } from "./countdown.comp.js";
 import { SpinnerComponent } from "./spinner.comp.js";
@@ -16,12 +17,15 @@ export class AppComponent extends HTMLElement {
 
   run() {
     this.drawLoading();
-    this.nextOwlService.getNextGame().then(nextGame => {
-      this.nextGame = nextGame;
-      this.draw();
-    }).catch((er) => {
-      this.drawError(er);
-    })
+    this.nextOwlService.getNextGame()
+      .then(nextGame => {
+        TitleHelper.setGame(nextGame);
+        this.nextGame = nextGame;
+        this.draw();
+      })
+      .catch((er) => {
+        this.drawError(er);
+      });
   }
 
   drawLoading() {

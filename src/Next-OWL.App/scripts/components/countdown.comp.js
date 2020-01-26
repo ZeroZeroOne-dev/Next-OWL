@@ -1,4 +1,4 @@
-import { DateHelper } from "../helpers/date-helper.js";
+import { DateHelper } from "../helpers/date.helper.js";
 
 export class CountdownComponent extends HTMLElement {
     constructor(gameDate) {

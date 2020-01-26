@@ -31,6 +31,7 @@ namespace Next_OWL.Versions.V2.Models.Input
     public class Competitor
     {
         public string Name { get; set; }
+        public string AbbreviatedName { get; set; }
         public string Icon { get; set; }
     }
 }

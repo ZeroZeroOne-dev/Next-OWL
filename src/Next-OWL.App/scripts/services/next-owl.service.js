@@ -2,7 +2,7 @@ import { NoGameError } from "../helpers/errors.js";
 
 export class NextOwlService {
 
-  //(static) class fields only work in chrome for now, revisit in future
+  // (static) class fields only work in chrome for now, revisit in future
   static get ApiBaseUrl() {
     return "https://next-owl.azurewebsites.net/api";
   }
