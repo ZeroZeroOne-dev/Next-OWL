@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -24,27 +26,49 @@ namespace Next_OWL.Versions.V2.Services
             };
             this.httpClient.DefaultRequestHeaders.Add("referer", "https://overwatchleague.com/en-us/schedule");
 
-
             this.jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
         }
 
-        private async Task<RequestResult> GetSchedule()
+        private static int GetCurrentPageNumber()
         {
-            var request = await this.httpClient.GetAsync("/production/owl/paginator/schedule?stage=regular_season&page=1&season=2020&locale=en-us");
+            var current = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Tuesday);
+            var page = current - 5;
+            return page < 1 ? 1 : page;
+        }
+
+        private async Task<RequestResult> GetPage(int page)
+        {
+            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2020&locale=en-us");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
+        }
+
+        private async Task<IEnumerable<Event>> GetSchedule()
+        {
+            var currentPage = GetCurrentPageNumber();
+            var nextPage = currentPage + 1;
+
+            var currentTask = GetPage(currentPage);
+            var nextTask = GetPage(nextPage);
+
+            await Task.WhenAll(new Task[] { currentTask, nextTask });
+
+            var currentEvents = currentTask.Result.Content.TableData.Events;
+            var nextEvents = nextTask.Result.Content.TableData.Events;
+
+            return currentEvents.Concat(nextEvents);
         }
 
         public async Task<IOrderedEnumerable<Game>> GetFuture(int count = 10)
         {
             var start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            var owlSchedule = (await GetSchedule());
+            var events = (await GetSchedule());
 
-            var matches = owlSchedule.Content.TableData.Events
+            var matches = events
                         .SelectMany(s => s.Matches)
                         .Where(m => m.Competitors[0] != null && m.StartDate >= start)
                         .OrderBy(s => s.StartDate)
