@@ -14,15 +14,17 @@ no-spinner, no-error {
 }
 
 no-game {
-    margin: 10px;
+    margin: 20px;
     padding: 10px;
-    background-color: #1e1e1e
+    background-color: #202020;
+    box-shadow: 0 0 10px black;
 }
 
 no-game.not-first-game {
+    margin: 32px;
     opacity: 0.6;
     zoom: 0.6;
-    margin: 16px
+    box-shadow: 0 0 16px black;
 }
 
 no-game {
@@ -42,6 +44,7 @@ no-team {
 
 no-team img {
     width: 200px;
+    margin-top: 10px;
 }
 
 no-countdown {
