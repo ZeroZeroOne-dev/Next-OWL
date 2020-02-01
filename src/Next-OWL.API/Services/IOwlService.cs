@@ -6,7 +6,7 @@ namespace Next_OWL.Services
 {
     public interface IOwlService
     {
-        Task<IOrderedEnumerable<Game>> GetFutureGames();
-        Task<Game> GetNextGame();
+        Task<IOrderedEnumerable<Game>> GetFuture(int count = 10);
+        Task<Game> GetNext();
     }
 }

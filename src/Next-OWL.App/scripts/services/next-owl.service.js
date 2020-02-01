@@ -7,8 +7,21 @@ export class NextOwlService {
     return "https://next-owl.azurewebsites.net/api";
   }
 
-  async getNextGame() {
-    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule/nextgame`);
+  async getNext() {
+    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule/next`);
+
+    switch (r.status) {
+      case 200:
+        return r.json();
+      case 204:
+        throw new NoGameError();
+      default:
+        throw new Error('An error has occured');
+    }
+  }
+
+  async getFuture(count = 4) {
+    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule?count=${count}`);
 
     switch (r.status) {
       case 200:

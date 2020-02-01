@@ -17,16 +17,23 @@ namespace Next_OWL.Controllers
             this.owlService = owlService;
         }
 
-        [HttpGet("nextgame")]
-        public async Task<Game> GetNextGame()
+        [HttpGet("next")]
+        public async Task<Game> GetNext()
         {
-            return await this.owlService.GetNextGame();
+            return await this.owlService.GetNext();
         }
 
         [HttpGet]
-        public async Task<IOrderedEnumerable<Game>> Get()
+        public async Task<ActionResult> Get([FromQuery] int count = 10)
         {
-            return await this.owlService.GetFutureGames();
+            if (count < 1 || count > 10)
+            {
+                return BadRequest("invalid count");
+            }
+
+            var game = await this.owlService.GetFuture(count);
+
+            return game != null ? (ActionResult)Ok(game) : (ActionResult)NoContent();
         }
     }
 }

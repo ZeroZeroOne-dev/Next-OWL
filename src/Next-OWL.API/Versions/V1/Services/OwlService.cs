@@ -33,7 +33,7 @@ namespace Next_OWL.Versions.V1.Services
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
 
-        public async Task<IOrderedEnumerable<Game>> GetFutureGames()
+        public async Task<IOrderedEnumerable<Game>> GetFuture(int count = 10)
         {
             var start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
@@ -42,6 +42,8 @@ namespace Next_OWL.Versions.V1.Services
             var matches = owlSchedule.Stages
                         .SelectMany(s => s.Matches)
                         .Where(m => m.Competitors[0] != null && m.StartDateTS >= start)
+                        .OrderBy(s => s.StartDate)
+                        .Take(count)
                         .Select(m => new Game
                         {
                             TeamOne = new Team
@@ -61,9 +63,9 @@ namespace Next_OWL.Versions.V1.Services
             return matches;
         }
 
-        public async Task<Game> GetNextGame()
+        public async Task<Game> GetNext()
         {
-            var futureGames = await this.GetFutureGames();
+            var futureGames = await this.GetFuture(1);
             return futureGames.FirstOrDefault();
         }
     }

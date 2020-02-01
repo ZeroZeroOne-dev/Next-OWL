@@ -1,9 +1,8 @@
 import { NextOwlService } from "../services/next-owl.service.js";
 import { TitleHelper } from "../helpers/title.helper.js";
-import { TeamComponent } from "./team.comp.js";
-import { CountdownComponent } from "./countdown.comp.js";
 import { SpinnerComponent } from "./spinner.comp.js";
 import { ErrorComponent } from "./error.component.js";
+import { GameComponent } from "./game.comp.js";
 
 export class AppComponent extends HTMLElement {
   constructor() {
@@ -17,46 +16,48 @@ export class AppComponent extends HTMLElement {
 
   run() {
     this.drawLoading();
-    this.nextOwlService.getNextGame()
-      .then(nextGame => {
-        TitleHelper.setGame(nextGame);
-        this.nextGame = nextGame;
+    this.nextOwlService.getFuture(4)
+      .then(nextGames => {
+        TitleHelper.setGame(nextGames[0]);
+        this.nextGames = nextGames;
         this.draw();
       })
       .catch((er) => {
         this.drawError(er);
+        throw er;
       });
   }
 
   drawLoading() {
-    this.replaceAll(new SpinnerComponent());
+    this.clearAll();
+    this.appendChild(new SpinnerComponent());
   }
 
   draw() {
-    const container = document.createElement('div');
-    container.classList.add('teams');
+    this.clearAll();
 
-    container.append(new TeamComponent(this.nextGame.teamOne));
-    container.append(new CountdownComponent(this.nextGame.date));
-    container.append(new TeamComponent(this.nextGame.teamTwo));
+    for (var i = 0; i < this.nextGames.length; i++) {
+      const game = this.nextGames[i];
+      const gameComponent = new GameComponent(game);
 
-    this.replaceAll(container);
+      if (i != 0) {
+        gameComponent.classList.add('not-first-game');
+      }
+
+      this.append(gameComponent);
+      this.append(document.createElement('hr'));
+    }
   }
 
   drawError(error) {
-    const container = document.createElement('div');
-
-    container.append(new ErrorComponent(error));
-
-    this.replaceAll(container);
+    this.clearAll();
+    this.append(new ErrorComponent(error));
   }
 
-  replaceAll(newContent) {
+  clearAll() {
     while (this.firstChild) {
       this.removeChild(this.firstChild);
     }
-
-    this.append(newContent);
   }
 }
 customElements.define('no-app', AppComponent);

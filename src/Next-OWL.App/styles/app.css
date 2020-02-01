@@ -3,7 +3,7 @@ body {
     font-size: 25px;
 }
 
-no-app .teams {
+no-game {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -13,6 +13,7 @@ no-team {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 20%;
 }
 
 no-team img {
@@ -32,4 +33,9 @@ no-spinner, no-error {
     justify-content: space-evenly;
     margin-top: 10vh;
     text-align: center;
+}
+
+no-game.not-first-game {
+    opacity: 0.6;
+    zoom: 0.6;
 }
