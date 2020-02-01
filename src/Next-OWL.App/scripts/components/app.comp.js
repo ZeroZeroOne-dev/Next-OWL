@@ -45,7 +45,6 @@ export class AppComponent extends HTMLElement {
       }
 
       this.append(gameComponent);
-      this.append(document.createElement('hr'));
     }
   }
 
