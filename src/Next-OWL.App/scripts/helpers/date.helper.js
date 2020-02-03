@@ -11,7 +11,7 @@ export class DateHelper {
         const dateFormat = Intl.DateTimeFormat("default", dateFormatOptions);
 
         const hourFormatOptions = {
-            hour: "2-digit",
+            hour: "numeric",
             minute: "2-digit"
         };
         const hourFormat = Intl.DateTimeFormat("default", hourFormatOptions);
