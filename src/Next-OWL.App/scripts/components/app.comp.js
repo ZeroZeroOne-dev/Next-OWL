@@ -3,6 +3,8 @@ import { TitleHelper } from "../helpers/title.helper.js";
 import { SpinnerComponent } from "./spinner.comp.js";
 import { ErrorComponent } from "./error.component.js";
 import { GameComponent } from "./game.comp.js";
+import { Events } from "../helpers/events.js";
+import { StyleHelper } from "../helpers/style.helper.js";
 
 export class AppComponent extends HTMLElement {
   constructor() {
@@ -14,8 +16,11 @@ export class AppComponent extends HTMLElement {
     this.addEventListener('dblclick', () => this.run());
   }
 
-  run() {
-    this.drawLoading();
+  run(drawLoading = true) {
+    if (drawLoading) {
+      this.drawLoading();
+    }
+
     this.nextOwlService.getFuture(4)
       .then(nextGames => {
         TitleHelper.setGame(nextGames[0]);
@@ -40,8 +45,8 @@ export class AppComponent extends HTMLElement {
       const game = this.nextGames[i];
       const gameComponent = new GameComponent(game);
 
-      if (i != 0) {
-        gameComponent.classList.add('not-first-game');
+      if (i == 0) {
+        gameComponent.addEventListener(Events.GameStarted, (event) => this.onGameStarted(event));
       }
 
       this.append(gameComponent);
@@ -57,6 +62,15 @@ export class AppComponent extends HTMLElement {
     while (this.firstChild) {
       this.removeChild(this.firstChild);
     }
+  }
+
+  onGameStarted(event) {
+    const gameComponent = event.currentTarget;
+    StyleHelper.fadeOut(gameComponent).then(() => {
+      gameComponent.remove();
+      TitleHelper.setGame(this.nextGames[1]);
+      this.run(false)
+    });
   }
 }
 customElements.define('no-app', AppComponent);

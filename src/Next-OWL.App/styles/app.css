@@ -14,23 +14,22 @@ no-spinner, no-error {
 }
 
 no-game {
-    margin: 20px;
-    padding: 10px;
-    background-color: #202020;
-    box-shadow: 0 0 10px black;
-}
-
-no-game.not-first-game {
-    margin: 32px;
-    opacity: 0.6;
-    zoom: 0.6;
-    box-shadow: 0 0 16px black;
-}
-
-no-game {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    background-color: #202020;
+    padding: 10px;
+    margin: 32px;
+    box-shadow: 0 0 16px black;
+    opacity: 0.6;
+    zoom: 0.6;
+}
+
+no-game:first-of-type {
+    margin: 20px;
+    box-shadow: 0 0 10px black;
+    opacity: 1;
+    zoom: 1;
 }
 
 no-team {

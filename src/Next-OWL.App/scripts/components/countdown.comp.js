@@ -1,4 +1,5 @@
 import { DateHelper } from "../helpers/date.helper.js";
+import { Events } from "../helpers/events.js";
 
 export class CountdownComponent extends HTMLElement {
     constructor(gameDate) {
@@ -7,16 +8,32 @@ export class CountdownComponent extends HTMLElement {
         this.localDate = DateHelper.getLocalDateString(gameDate);
         this.gameDate = gameDate;
 
-        this.draw();
-        setInterval(() => {
-            this.draw();
-        }, 1000);
+        this.countDown();
+        this.drawInterval = setInterval(() => {
+            this.countDown();
+        }, 500);
     }
 
-    draw() {
+    countDown() {
+        const timeToGame = DateHelper.getSpan(this.gameDate);
+
+        if (timeToGame > 0) {
+            this.draw(timeToGame);
+            return
+        }
+
+        clearInterval(this.drawInterval);
+        this.draw(0);
+
+        setTimeout(() => {
+            this.dispatchEvent(new Event(Events.GameStarted, { bubbles: true }));
+        }, 2000);
+    }
+
+    draw(timeToGame) {
         const template = `
             <span>${this.localDate}</span>
-            <span>${DateHelper.getCountDownString(this.gameDate)}</span>
+            <span>${DateHelper.getCountDownString(timeToGame)}</span>
         `;
 
         this.innerHTML = template;
