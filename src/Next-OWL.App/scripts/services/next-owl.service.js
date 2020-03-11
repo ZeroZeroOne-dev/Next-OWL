@@ -1,4 +1,4 @@
-import { NoGameError } from "../helpers/errors.js";
+import { NoGameError, CoronaError } from "../helpers/errors.js";
 
 export class NextOwlService {
 
@@ -21,15 +21,24 @@ export class NextOwlService {
   }
 
   async getFuture(count = 4) {
-    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule?count=${count}`);
+    const request = await fetch(`${NextOwlService.ApiBaseUrl}/schedule?count=${count}`);
 
-    switch (r.status) {
+    switch (request.status) {
       case 200:
-        return r.json();
+        return await this.CheckData(request);
       case 204:
         throw new NoGameError();
       default:
         throw new Error('An error has occured');
+    }
+  }
+
+  async CheckData(request) {
+    var data = await request.json();
+    if (data.length > 0) {
+      return data;
+    } else {
+      throw new CoronaError();
     }
   }
 
