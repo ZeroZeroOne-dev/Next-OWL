@@ -31,9 +31,9 @@ namespace Next_OWL.Controllers
                 return BadRequest("invalid count");
             }
 
-            var game = await this.owlService.GetFuture(count);
+            var games = await this.owlService.GetFuture(count);
 
-            return game != null ? (ActionResult)Ok(game) : (ActionResult)NoContent();
+            return (ActionResult)Ok(games);
         }
     }
 }

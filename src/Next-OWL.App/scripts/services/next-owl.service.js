@@ -1,4 +1,4 @@
-import { NoGameError, CoronaError } from "../helpers/errors.js";
+import { NoGameError } from "../helpers/errors.js";
 
 export class NextOwlService {
 
@@ -13,8 +13,6 @@ export class NextOwlService {
     switch (r.status) {
       case 200:
         return r.json();
-      case 204:
-        throw new NoGameError();
       default:
         throw new Error('An error has occured');
     }
@@ -26,8 +24,6 @@ export class NextOwlService {
     switch (request.status) {
       case 200:
         return await this.CheckData(request);
-      case 204:
-        throw new NoGameError();
       default:
         throw new Error('An error has occured');
     }
@@ -38,7 +34,7 @@ export class NextOwlService {
     if (data.length > 0) {
       return data;
     } else {
-      throw new CoronaError();
+      throw new NoGameError();
     }
   }
 
