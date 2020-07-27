@@ -3,17 +3,21 @@
 ## APP
 
 Website to show the next 4 Overwatch League games.
+
 Single page application written in pure javascript; 0 external libraries used.
+
 Hosted inside of the .net Core api (until static web abb)
 
 ## API
 
 API that allows querying the unofficial Overwatch League API schedule.
+
 Written in .net Core
 
 ## Hosting
 
 Hosted on azure free tier.
+
 Azure Devops for CI/CD
 
 ## Ideas
