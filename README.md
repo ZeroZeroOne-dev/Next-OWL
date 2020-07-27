@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/jefjef/Next-OWL/_apis/build/status/jefjef.Next-OWL?branchName=master)](https://dev.azure.com/jefjef/Next-OWL/_build/latest?definitionId=1&branchName=master)
+
 # Next-OWL
 
 ## APP
