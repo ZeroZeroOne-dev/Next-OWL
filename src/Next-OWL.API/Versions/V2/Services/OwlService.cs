@@ -42,7 +42,7 @@ namespace Next_OWL.Versions.V2.Services
 
         private async Task<RequestResult> GetPage(int page)
         {
-            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2020&locale=en-us");
+            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2020&locale=en-us&id=bltaea9843a2219186c");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
