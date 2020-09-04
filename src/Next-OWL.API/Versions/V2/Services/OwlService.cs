@@ -24,7 +24,8 @@ namespace Next_OWL.Versions.V2.Services
             {
                 BaseAddress = new Uri(owlApiConfig.V2BaseUrl)
             };
-            this.httpClient.DefaultRequestHeaders.Add("referer", "https://overwatchleague.com/en-us/schedule");
+            this.httpClient.DefaultRequestHeaders.Add("referer", "https://overwatchleague.com");
+            this.httpClient.DefaultRequestHeaders.Add("x-origin", "overwatchleague.com");
 
             this.jsonOptions = new JsonSerializerOptions
             {
@@ -35,7 +36,7 @@ namespace Next_OWL.Versions.V2.Services
         private static int GetCurrentPageNumber()
         {
             var current = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Tuesday);
-            var page = current - 5;
+            var page = current - 36;
             return page < 1 ? 1 : page;
         }
 
