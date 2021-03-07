@@ -7,7 +7,7 @@ export class SpinnerComponent extends HTMLElement {
     }
 
     draw() {
-        this.innerHTML = '<img src="./images/oval.svg"/>'
+        this.innerHTML = '<div class="loader"></div>'
     }
 
 }

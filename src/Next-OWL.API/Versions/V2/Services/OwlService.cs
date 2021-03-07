@@ -36,13 +36,13 @@ namespace Next_OWL.Versions.V2.Services
         private static int GetCurrentPageNumber()
         {
             var current = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Tuesday);
-            var page = current - 5;
+            var page = current - 15;
             return page < 1 ? 1 : page;
         }
 
         private async Task<RequestResult> GetPage(int page)
         {
-            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2020&locale=en-us");
+            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2021&locale=en-us");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
