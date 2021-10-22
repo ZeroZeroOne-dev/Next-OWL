@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Next_OWL.Models.Output;
 using Next_OWL.Services;
@@ -32,7 +33,15 @@ namespace Next_OWL.Controllers
 
             var games = await this.owlService.GetFuture(count);
 
-            return (ActionResult)Ok(games);
+            if (games.Any())
+            {
+                return Ok(games);
+            }
+            else
+            {
+                return NoContent();
+            }
+
         }
     }
 }
