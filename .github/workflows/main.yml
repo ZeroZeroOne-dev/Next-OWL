@@ -36,8 +36,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./
-          file: ./.docker/Dockerfile
+          context: ./src/Next-OWL.API/
+          file: ./src/Next-OWL.API/.docker/Dockerfile
           tags: ghcr.io/jefjef/next-owl-api:latest
           platforms: linux/amd64,linux/arm64
           push: true
