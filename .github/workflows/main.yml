@@ -50,4 +50,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_KEY_PW }}
-          script: bash ~/scripts/next-owl/deploy_api.sh
+          script: bash ~/scripts/next-owl/deploy-api.sh
