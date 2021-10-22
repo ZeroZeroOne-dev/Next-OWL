@@ -1,4 +1,4 @@
-name: CI
+name: Build And Deploy App
 
 # Controls when the workflow will run
 on:
