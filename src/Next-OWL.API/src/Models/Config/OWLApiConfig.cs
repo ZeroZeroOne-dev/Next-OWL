@@ -4,5 +4,7 @@ namespace Next_OWL.Models.Config
     {
         public string V1BaseUrl { get; set; }
         public string V2BaseUrl { get; set; }
+        public string Season { get; set; }
+        public int WeekOffset { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Next_OWL.Models.Output;
 using Next_OWL.Services;
@@ -24,7 +23,7 @@ namespace Next_OWL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] int count = 10)
+        public async Task<IActionResult> Get([FromQuery] int count = 10)
         {
             if (count < 1 || count > 10)
             {

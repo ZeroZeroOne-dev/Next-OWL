@@ -17,9 +17,12 @@ namespace Next_OWL.Versions.V2.Services
     {
         private readonly HttpClient httpClient;
         private readonly JsonSerializerOptions jsonOptions;
+        private readonly OWLApiConfig owlApiConfig;
 
         public OwlService(OWLApiConfig owlApiConfig)
         {
+            this.owlApiConfig = owlApiConfig;
+
             this.httpClient = new HttpClient
             {
                 BaseAddress = new Uri(owlApiConfig.V2BaseUrl)
@@ -33,16 +36,16 @@ namespace Next_OWL.Versions.V2.Services
             };
         }
 
-        private static int GetCurrentPageNumber()
+        private int GetCurrentPageNumber()
         {
             var current = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Tuesday);
-            var page = current - 15;
+            var page = current + owlApiConfig.WeekOffset;
             return page < 1 ? 1 : page;
         }
 
         private async Task<RequestResult> GetPage(int page)
         {
-            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season=2021&locale=en-us");
+            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season={owlApiConfig.Season}&locale=en-us");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
@@ -57,8 +60,8 @@ namespace Next_OWL.Versions.V2.Services
 
             await Task.WhenAll(new Task[] { currentTask, nextTask });
 
-            var currentEvents = currentTask.Result.Content.TableData.Events;
-            var nextEvents = nextTask.Result.Content.TableData.Events;
+            var currentEvents = currentTask.Result.Content?.TableData?.Events ?? Enumerable.Empty<Event>() ;
+            var nextEvents = nextTask.Result.Content?.TableData?.Events ?? Enumerable.Empty<Event>();
 
             return currentEvents.Concat(nextEvents);
         }

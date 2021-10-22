@@ -39,12 +39,6 @@ namespace Next_OWL
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHttpsRedirection();
-                app.UseHsts();
-            }
-
 
             app.UseRouting();
 
