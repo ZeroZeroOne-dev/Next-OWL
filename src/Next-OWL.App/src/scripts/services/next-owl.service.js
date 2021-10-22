@@ -4,37 +4,27 @@ export class NextOwlService {
 
   // (static) class fields only work in chrome for now, revisit in future
   static get ApiBaseUrl() {
-    return "https://next-owl.azurewebsites.net/api";
+    return "https://next-owl.smets.dev/api";
   }
 
   async getNext() {
     const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule/next`);
-
-    switch (r.status) {
-      case 200:
-        return r.json();
-      default:
-        throw new Error('An error has occured');
-    }
+    return this.processResponse(r);
   }
 
   async getFuture(count = 4) {
-    const request = await fetch(`${NextOwlService.ApiBaseUrl}/schedule?count=${count}`);
-
-    switch (request.status) {
-      case 200:
-        return await this.CheckData(request);
-      default:
-        throw new Error('An error has occured');
-    }
+    const r = await fetch(`${NextOwlService.ApiBaseUrl}/schedule?count=${count}`);
+    return this.processResponse(r);
   }
 
-  async CheckData(request) {
-    var data = await request.json();
-    if (data.length > 0) {
-      return data;
-    } else {
-      throw new NoGameError();
+  processResponse(response) {
+    switch (response.status) {
+      case 200:
+        return request.json();
+      case 204:
+        throw new NoGameError();
+      default:
+        throw new Error('An error has occured');
     }
   }
 

@@ -3,5 +3,7 @@
 }
 
 :8081 {
-    file_server
+    file_server {
+        root ./src
+    }
 }
