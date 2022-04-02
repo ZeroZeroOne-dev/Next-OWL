@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
-namespace Next_OWL.Versions.V2.Models.Input
+namespace Next_OWL.Service.Models.Input
 {
     public class RequestResult
     {
-        public Content Content { get; set; }
+        public Data Data { get; set; }
     }
 
-    public class Content
+    public class Data
     {
         public TableData TableData { get; set; }
     }

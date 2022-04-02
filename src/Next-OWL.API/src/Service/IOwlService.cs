@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Next_OWL.Models.Output;
 
-namespace Next_OWL.Services
+namespace Next_OWL.Service
 {
     public interface IOwlService
     {

@@ -7,10 +7,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Next_OWL.Models.Config;
 using Next_OWL.Models.Output;
-using Next_OWL.Services;
-using Next_OWL.Versions.V2.Models.Input;
+using Next_OWL.Service.Models.Input;
 
-namespace Next_OWL.Versions.V2.Services
+namespace Next_OWL.Service
 {
 
     public class OwlService : IOwlService
@@ -25,7 +24,7 @@ namespace Next_OWL.Versions.V2.Services
 
             this.httpClient = new HttpClient
             {
-                BaseAddress = new Uri(owlApiConfig.V2BaseUrl)
+                BaseAddress = new Uri(owlApiConfig.BaseUrl)
             };
             this.httpClient.DefaultRequestHeaders.Add("referer", "https://overwatchleague.com");
             this.httpClient.DefaultRequestHeaders.Add("x-origin", "overwatchleague.com");
@@ -45,7 +44,7 @@ namespace Next_OWL.Versions.V2.Services
 
         private async Task<RequestResult> GetPage(int page)
         {
-            var request = await this.httpClient.GetAsync($"/production/owl/paginator/schedule?stage=regular_season&page={page}&season={owlApiConfig.Season}&locale=en-us");
+            var request = await this.httpClient.GetAsync($"/production/v2/content-types/schedule/blt78de204ce428f00c/week/{page}");
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
@@ -60,8 +59,8 @@ namespace Next_OWL.Versions.V2.Services
 
             await Task.WhenAll(new Task[] { currentTask, nextTask });
 
-            var currentEvents = currentTask.Result.Content?.TableData?.Events ?? Enumerable.Empty<Event>() ;
-            var nextEvents = nextTask.Result.Content?.TableData?.Events ?? Enumerable.Empty<Event>();
+            var currentEvents = currentTask.Result.Data?.TableData?.Events ?? Enumerable.Empty<Event>() ;
+            var nextEvents = nextTask.Result.Data?.TableData?.Events ?? Enumerable.Empty<Event>();
 
             return currentEvents.Concat(nextEvents);
         }
