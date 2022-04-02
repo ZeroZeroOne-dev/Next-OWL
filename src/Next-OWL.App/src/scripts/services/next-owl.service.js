@@ -20,7 +20,7 @@ export class NextOwlService {
   processResponse(response) {
     switch (response.status) {
       case 200:
-        return request.json();
+        return response.json();
       case 204:
         throw new NoGameError();
       default:
