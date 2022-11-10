@@ -38,7 +38,7 @@ jobs:
         with:
           context: ./src/Next-OWL.App/
           file: ./src/Next-OWL.App/.docker/Dockerfile
-          tags: ghcr.io/jefjef/next-owl-app:latest
+          tags: ghcr.io/zerozeroone-dev/next-owl-app:latest
           platforms: linux/amd64,linux/arm64
           push: true
           
