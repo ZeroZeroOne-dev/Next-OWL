@@ -45,6 +45,10 @@ namespace Next_OWL.Service
         private async Task<RequestResult> GetPage(int page)
         {
             var request = await this.httpClient.GetAsync($"/production/v2/content-types/schedule/blt78de204ce428f00c/week/{page}");
+
+            if (!request.IsSuccessStatusCode)
+                return null;
+
             using var jsonStream = await request.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<RequestResult>(jsonStream, jsonOptions);
         }
@@ -59,8 +63,8 @@ namespace Next_OWL.Service
 
             await Task.WhenAll(new Task[] { currentTask, nextTask });
 
-            var currentEvents = currentTask.Result.Data?.TableData?.Events ?? Enumerable.Empty<Event>() ;
-            var nextEvents = nextTask.Result.Data?.TableData?.Events ?? Enumerable.Empty<Event>();
+            var currentEvents = currentTask.Result?.Data?.TableData?.Events ?? Enumerable.Empty<Event>();
+            var nextEvents = nextTask.Result?.Data?.TableData?.Events ?? Enumerable.Empty<Event>();
 
             return currentEvents.Concat(nextEvents);
         }
