@@ -41,13 +41,3 @@ jobs:
           tags: ghcr.io/zerozeroone-dev/next-owl-app:latest
           platforms: linux/amd64,linux/arm64
           push: true
-          
-      - name: SSH Deploy
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_KEY_PW }}
-          script: bash ~/scripts/next-owl/deploy-app.sh
